@@ -15,10 +15,10 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
-      - name: Generate PNG launcher icon
+      - name: Generate Android launcher icons
         run: |
-          mkdir -p app/src/main/res/drawable-nodpi
-          echo 'iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAACf0lEQVR42u3dMU4DMRBA0cTaA9BxASTukg4hbkPJbRCi4y65DS0NC1isPTN+ryar4PxMLIiT8+3N3Ql6NUuAgBAQAkJAICAEhIAQEAgIASEgBAQCQkAICAGBgBAQAkJACAgEhIAQEAICASEgBISAQEAICAEhIBAQAkJACAgBQa8twp243D97JPp8XF/m3oHz3A8al072jKYFJJ0aGU0ISDqVMmrqKWbwCjf1aChHQOop2VBTj4Yy7YEoppV5KjBl5U0gYgdk/NQeQiYQgQMyfsoPIRMIASEgBMSKtjh35eHp8U8///765pomUOcK/uYmK19zrYC6l2Pnhitf0x4Im2gEBAJCQAgIAYGAEBACQkAgIIoE1P3mhJ0brnzNFSdQx3L8eJOVrznMsZ8P5FRGEMd9aJA9EAJCQAgIAYGAEBACYg1Oppa95loTyMnUo5erckBOpo5cNHsgbKIREAgIASEgBISAQEAICAEhIEgTkJOpIxet5gRyMjVjPScnUxfhZCr2QAgIBISAEBACAgEhIAREVlv8uxjnGO8scf7zlSwg6Xxdh5gZeQmjaEDGT4oFMYEQEAJCQAgIBISAEBACAgEhIATUIfJ7GCyICcT/2OI/5/xb3hvKvJbZA4GAEBACQkAgIASEgBDQt477cFCCPAomELEDMoQKjx8TiAwBGUJVx48JRJKADKGS42foBNJQvXpGv4RpqN46t8K/m3oGOPb7wnb4KrEaT85pAcmoxlyfHJCMsm8JQgREXv6QiIAQEAJCQCAgBISAEBAICAEhIAQEAkJACAgBgYAQEAJCQAgIBISAEBACAgEhIASEgEBACAgBISAQEAJCQAgIAUG3T66H1Xr2F1NFAAAAAElFTkSuQmCC' | base64 --decode > app/src/main/res/drawable-nodpi/bechir_launcher.png
+          python3 -m pip install --quiet pillow
+          python3 scripts/generate_icons.py
       - name: Build debug APK
         run: gradle --no-daemon assembleDebug --stacktrace
       - uses: actions/upload-artifact@v4
