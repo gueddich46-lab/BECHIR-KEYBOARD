@@ -1,5 +1,24 @@
 package com.bechir.keyboard;
-import android.app.*;import android.os.*;import android.content.*;import android.graphics.Color;import android.graphics.Typeface;import android.view.*;import android.view.inputmethod.InputMethodManager;import android.widget.*;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.view.Gravity;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 public class MainActivity extends Activity {
- public void onCreate(Bundle b){super.onCreate(b);getWindow().setStatusBarColor(Color.rgb(13,10,24));LinearLayout root=new LinearLayout(this);root.setOrientation(1);root.setPadding(28,96,28,36);root.setBackgroundColor(Color.rgb(13,10,24));TextView title=new TextView(this);title.setText("BECHIR KEYBOARD");title.setTextSize(28);title.setTypeface(null,Typeface.BOLD);title.setTextColor(Color.WHITE);root.addView(title);TextView info=new TextView(this);info.setText("لوحة مفاتيح عربية • فرنسية • إنجليزية\n\n1. فعّل لوحة المفاتيح من إعدادات الهاتف.\n2. اختر BECHIR KEYBOARD كلوحة الإدخال.");info.setTextColor(0xffc9c1dd);info.setTextSize(18);info.setPadding(0,30,0,35);root.addView(info);Button enable=new Button(this);enable.setText("تفعيل لوحة المفاتيح");enable.setOnClickListener(v->startActivity(new Intent("android.settings.INPUT_METHOD_SETTINGS")));root.addView(enable);Button choose=new Button(this);choose.setText("اختيار لوحة المفاتيح");choose.setOnClickListener(v->{InputMethodManager m=(InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);m.showInputMethodPicker();});root.addView(choose);EditText test=new EditText(this);test.setHint("جرّب الكتابة هنا...");test.setHintTextColor(0xff9990aa);test.setTextColor(Color.WHITE);test.setMinLines(3);root.addView(test);setContentView(root);}
+ @Override public void onCreate(Bundle b) {
+  super.onCreate(b);
+  LinearLayout root=new LinearLayout(this); root.setOrientation(1); root.setGravity(Gravity.CENTER); root.setPadding(28,40,28,40); root.setBackgroundColor(0xff054957);
+  TextView title=new TextView(this); title.setText("كيبورد بشير"); title.setTextColor(Color.WHITE); title.setTextSize(34); title.setTypeface(null,Typeface.BOLD); title.setGravity(Gravity.CENTER); root.addView(title);
+  TextView subtitle=new TextView(this); subtitle.setText("BECHIR KEYBOARD\nلوحة مفاتيح عربية وفرنسية"); subtitle.setTextColor(0xffBCECF3); subtitle.setTextSize(18); subtitle.setGravity(Gravity.CENTER); subtitle.setPadding(0,12,0,32); root.addView(subtitle);
+  Button enable=new Button(this); enable.setText("١. تفعيل كيبورد بشير"); enable.setOnClickListener(v->startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))); root.addView(enable);
+  Button select=new Button(this); select.setText("٢. اختيار كيبورد بشير"); select.setOnClickListener(v->{InputMethodManager imm=(InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);imm.showInputMethodPicker();});root.addView(select);
+  TextView info=new TextView(this);info.setText("بعد التفعيل والاختيار، افتح أي حقل كتابة لتجربة الكيبورد.");info.setTextColor(Color.WHITE);info.setGravity(Gravity.CENTER);info.setTextSize(15);info.setPadding(0,32,0,0);root.addView(info);
+  setContentView(root);
+ }
 }

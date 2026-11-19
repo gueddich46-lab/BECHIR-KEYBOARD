@@ -1,2 +1,7 @@
 plugins { id 'com.android.application' }
-android { namespace 'com.bechir.keyboard'; compileSdk 35; defaultConfig { applicationId 'com.bechir.keyboard'; minSdk 26; targetSdk 35; versionCode 11; versionName '2.0' } }
+android {
+    namespace 'com.bechir.keyboard'
+    compileSdk 35
+    defaultConfig { applicationId 'com.bechir.keyboard'; minSdk 26; targetSdk 35; versionCode 1; versionName '1.0' }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+}

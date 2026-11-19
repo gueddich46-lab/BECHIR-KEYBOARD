@@ -1,1 +1,0 @@
-<resources><style name="BechirTheme" parent="android:style/Theme.Material.NoActionBar"><item name="android:windowOptOutEdgeToEdgeEnforcement">true</item><item name="android:statusBarColor">#0D0A18</item><item name="android:windowLightStatusBar">false</item></style></resources>
