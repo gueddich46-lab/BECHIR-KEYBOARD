@@ -58,16 +58,17 @@ public class BechirIme extends InputMethodService {
    default:return null;
   }
  }
+ private void refreshKeys(){if(root!=null)root.post(()->{if(root!=null)draw();});}
  private void press(String s){
   InputConnection ic=getCurrentInputConnection();if(ic==null)return;
   switch(s){
    case "⌫":ic.deleteSurroundingText(1,0);break;
-   case "🌐":arabic=!arabic;symbols=false;shifted=false;draw();break;
-   case "?123":case "ABC":case "أبج":symbols=!symbols;draw();break;
-   case "⇧":shifted=!shifted;draw();break;
+   case "🌐":arabic=!arabic;symbols=false;shifted=false;refreshKeys();break;
+   case "?123":case "ABC":case "أبج":symbols=!symbols;refreshKeys();break;
+   case "⇧":shifted=!shifted;refreshKeys();break;
    case "↵":ic.sendKeyEvent(new android.view.KeyEvent(android.view.KeyEvent.ACTION_DOWN,android.view.KeyEvent.KEYCODE_ENTER));ic.sendKeyEvent(new android.view.KeyEvent(android.view.KeyEvent.ACTION_UP,android.view.KeyEvent.KEYCODE_ENTER));break;
    case "العربية":case "espace":ic.commitText(" ",1);break;
-   default:ic.commitText(shifted&&!arabic?s.toUpperCase(Locale.FRENCH):s,1);if(shifted&&!arabic){shifted=false;draw();}
+   default:ic.commitText(shifted&&!arabic?s.toUpperCase(Locale.FRENCH):s,1);if(shifted&&!arabic){shifted=false;refreshKeys();}
   }
  }
  @Override public void onStartInput(EditorInfo attribute,boolean restarting){super.onStartInput(attribute,restarting);if(root!=null)draw();}
