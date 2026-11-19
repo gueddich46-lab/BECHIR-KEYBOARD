@@ -27,7 +27,7 @@ public class BechirIme extends InputMethodService {
   else if(arabic){addRow(new String[]{"ض","ص","ث","ق","ف","غ","ع","ه","خ","ح","ج"});addRow(new String[]{"ش","س","ي","ب","ل","ا","ت","ن","م","ك","ط"});addRow(new String[]{"ذ","ء","ؤ","ر","ى","ة","و","ز","ظ","د","⌫"});addRow(new String[]{"أ","إ","آ","ئ","لا","،"});}
   else{addRow(new String[]{"a","z","e","r","t","y","u","i","o","p"});addRow(new String[]{"q","s","d","f","g","h","j","k","l","m"});addRow(new String[]{"⇧","w","x","c","v","b","n","é","è","⌫"});addRow(new String[]{"à","ù","ê","ç","â","î","ô","û","!"});}
   LinearLayout bottom=new LinearLayout(this);bottom.setGravity(Gravity.CENTER);
-  addKey(bottom,"?123",1.15f,0xff0A6D80);addKey(bottom,"🌐",.9f,0xff0A6D80);addKey(bottom,arabic?"،":",",.65f,0xff116C7A);addKey(bottom,arabic?"العربية":"espace",3.9f,0xff168A9C);addKey(bottom,arabic?"؟":"?",.7f,0xff116C7A);addKey(bottom,"↵",1.1f,0xff17B1C5);root.addView(bottom);
+  addKey(bottom,symbols?(arabic?"أبج":"ABC"):"?123",1.15f,0xff0A6D80);addKey(bottom,"🌐",.9f,0xff0A6D80);addKey(bottom,".",.65f,0xff116C7A);addKey(bottom,arabic?"العربية":"espace",3.9f,0xff168A9C);addKey(bottom,arabic?"؟":"?",.7f,0xff116C7A);addKey(bottom,"↵",1.1f,0xff17B1C5);root.addView(bottom);
  }
  private void addRow(String[] keys){LinearLayout row=new LinearLayout(this);row.setGravity(Gravity.CENTER);for(String k:keys)addKey(row,k,1f,k.equals("⌫")?0xff08778B:0xff117F91);root.addView(row);}
  private void addKey(LinearLayout row,String value,float weight,int base){
@@ -42,7 +42,7 @@ public class BechirIme extends InputMethodService {
   switch(s){
    case "⌫":ic.deleteSurroundingText(1,0);break;
    case "🌐":arabic=!arabic;symbols=false;shifted=false;draw();break;
-   case "?123":symbols=!symbols;draw();break;
+   case "?123":case "ABC":case "أبج":symbols=!symbols;draw();break;
    case "⇧":shifted=!shifted;draw();break;
    case "↵":ic.sendKeyEvent(new android.view.KeyEvent(android.view.KeyEvent.ACTION_DOWN,android.view.KeyEvent.KEYCODE_ENTER));ic.sendKeyEvent(new android.view.KeyEvent(android.view.KeyEvent.ACTION_UP,android.view.KeyEvent.KEYCODE_ENTER));break;
    case "العربية":case "espace":ic.commitText(" ",1);break;
