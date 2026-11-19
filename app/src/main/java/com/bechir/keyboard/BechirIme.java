@@ -11,6 +11,8 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.PopupMenu;
+import android.view.MenuItem;
 import java.util.Locale;
 public class BechirIme extends InputMethodService {
  private boolean arabic=true, shifted=false, symbols=false;
@@ -35,7 +37,26 @@ public class BechirIme extends InputMethodService {
   t.setBackground(new RippleDrawable(ColorStateList.valueOf(0xAA9BFFFF),bg(base+0x000F0F0F,base,11,0xff45B5C5),null));
   t.setOnTouchListener((v,event)->{if(event.getAction()==android.view.MotionEvent.ACTION_DOWN){v.animate().scaleX(0.93f).scaleY(0.93f).setDuration(65).start();}else if(event.getAction()==android.view.MotionEvent.ACTION_UP||event.getAction()==android.view.MotionEvent.ACTION_CANCEL){v.animate().scaleX(1f).scaleY(1f).setDuration(95).start();}return false;});
   LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,dp(49),weight);p.setMargins(dp(2),dp(2),dp(2),dp(3));row.addView(t,p);t.setOnClickListener(v->press(value));
+  String variants=variantsFor(value);
+  if(variants!=null)t.setOnLongClickListener(v->{PopupMenu menu=new PopupMenu(this,t);for(String option:variants.split(","))menu.getMenu().add(option);menu.setOnMenuItemClickListener(item->{InputConnection ic=getCurrentInputConnection();if(ic!=null)ic.commitText(item.getTitle(),1);return true;});menu.show();return true;});
   if(value.equals("⌫"))t.setOnLongClickListener(v->{InputConnection ic=getCurrentInputConnection();if(ic!=null)ic.deleteSurroundingText(12,0);return true;});
+ }
+ private String variantsFor(String value){
+  switch(value){
+   case "ا":return "أ,إ,آ,ٱ";
+   case "ي":return "ى,ئ";
+   case "و":return "ؤ";
+   case "ه":return "ة";
+   case "ء":return "أ,إ,ؤ,ئ";
+   case "a":return "à,â,ä,æ";
+   case "e":return "é,è,ê,ë";
+   case "c":return "ç";
+   case "i":return "î,ï";
+   case "o":return "ô,ö,œ";
+   case "u":return "ù,û,ü";
+   case "y":return "ÿ";
+   default:return null;
+  }
  }
  private void press(String s){
   InputConnection ic=getCurrentInputConnection();if(ic==null)return;
