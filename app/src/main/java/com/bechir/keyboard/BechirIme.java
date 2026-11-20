@@ -35,7 +35,8 @@ public class BechirIme extends InputMethodService {
  private void addRow(String[] keys,int height){LinearLayout row=new LinearLayout(this);row.setGravity(Gravity.CENTER);for(String k:keys)addKey(row,k,1f,k.equals("⌫")?0xff08778B:0xff117F91,height);root.addView(row);}
  private void addKey(LinearLayout row,String value,float weight,int base){addKey(row,value,weight,base,dp(49));}
  private void addKey(LinearLayout row,String value,float weight,int base,int height){
-  TextView t=new TextView(this);t.setText(value);t.setTextColor(Color.WHITE);t.setTextSize(value.length()>4?13:value.length()>2?17:21);t.setTypeface(Typeface.DEFAULT,Typeface.BOLD);t.setGravity(Gravity.CENTER);
+  TextView t=new TextView(this);t.setText(shifted&&!arabic&&!symbols&&value.length()==1&&Character.isLetter(value.charAt(0))?value.toUpperCase(Locale.FRENCH):value);t.setTextColor(Color.WHITE);t.setTextSize(value.length()>4?13:value.length()>2?17:21);t.setTypeface(Typeface.DEFAULT,Typeface.BOLD);t.setGravity(Gravity.CENTER);
+  if(value.equals("⇧")&&shifted)t.setTextColor(0xffFFEEA5);
   t.setBackground(new RippleDrawable(ColorStateList.valueOf(0xAA9BFFFF),bg(base+0x000F0F0F,base,11,0xff45B5C5),null));
   t.setOnTouchListener((v,event)->{if(event.getAction()==android.view.MotionEvent.ACTION_DOWN){v.animate().scaleX(0.93f).scaleY(0.93f).setDuration(65).start();}else if(event.getAction()==android.view.MotionEvent.ACTION_UP||event.getAction()==android.view.MotionEvent.ACTION_CANCEL){v.animate().scaleX(1f).scaleY(1f).setDuration(95).start();}return false;});
   LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,height,weight);p.setMargins(dp(2),dp(2),dp(2),dp(3));row.addView(t,p);t.setOnClickListener(v->press(value));
