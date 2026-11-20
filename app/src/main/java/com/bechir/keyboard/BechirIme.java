@@ -17,6 +17,7 @@ import java.util.Locale;
 public class BechirIme extends InputMethodService {
  private boolean arabic=true, shifted=false, symbols=false;
  private LinearLayout root;
+ private static final int[] RAINBOW={0xffD65B91,0xffAF67D9,0xff7478E9,0xff438CE7,0xff26A8D2,0xff20B7A9,0xff57B86E,0xffB7BB4C,0xffE6A34B,0xffE37C5C};
  private int dp(float x){return (int)(getResources().getDisplayMetrics().density*x+.5f);}
  private GradientDrawable bg(int top,int bottom,int radius,int border){GradientDrawable d=new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{top,bottom});d.setCornerRadius(dp(radius));d.setStroke(dp(1.4f),border);return d;}
  @Override public View onCreateInputView(){root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setPadding(dp(4),dp(5),dp(4),dp(9));root.setBackground(bg(0xff064452,0xff052D3D,17,0xff24899A));draw();return root;}
@@ -32,12 +33,13 @@ public class BechirIme extends InputMethodService {
   addKey(bottom,symbols?(arabic?"أبج":"ABC"):"123",1.8f,0xff0A6D80);addKey(bottom,"🌐",.9f,0xff0A6D80);addKey(bottom,".",.65f,0xff116C7A);addKey(bottom,arabic?"العربية":"espace",3.9f,0xff168A9C);addKey(bottom,arabic?"؟":"?",.7f,0xff116C7A);addKey(bottom,"↵",1.1f,0xff17B1C5);root.addView(bottom);
  }
  private void addRow(String[] keys){addRow(keys,dp(49));}
- private void addRow(String[] keys,int height){LinearLayout row=new LinearLayout(this);row.setGravity(Gravity.CENTER);for(String k:keys)addKey(row,k,1f,k.equals("⌫")?0xff08778B:0xff117F91,height);root.addView(row);}
+ private void addRow(String[] keys,int height){LinearLayout row=new LinearLayout(this);row.setGravity(Gravity.CENTER);for(int i=0;i<keys.length;i++){String k=keys[i];addKey(row,k,1f,k.equals("⌫")?0xff08778B:RAINBOW[(i+root.getChildCount()*3)%RAINBOW.length],height);}root.addView(row);}
+ private int lighten(int color){int r=Math.min(255,Color.red(color)+22),g=Math.min(255,Color.green(color)+22),b=Math.min(255,Color.blue(color)+22);return Color.rgb(r,g,b);}
  private void addKey(LinearLayout row,String value,float weight,int base){addKey(row,value,weight,base,dp(49));}
  private void addKey(LinearLayout row,String value,float weight,int base,int height){
   TextView t=new TextView(this);t.setText(shifted&&!arabic&&!symbols&&value.length()==1&&Character.isLetter(value.charAt(0))?value.toUpperCase(Locale.FRENCH):value);t.setTextColor(Color.WHITE);t.setTextSize(value.length()>4?13:value.length()>2?17:21);t.setTypeface(Typeface.DEFAULT,Typeface.BOLD);t.setGravity(Gravity.CENTER);
   if(value.equals("⇧")&&shifted)t.setTextColor(0xffFFEEA5);
-  t.setBackground(new RippleDrawable(ColorStateList.valueOf(0xAA9BFFFF),bg(base+0x000F0F0F,base,11,0xff45B5C5),null));
+  t.setBackground(new RippleDrawable(ColorStateList.valueOf(0xAA9BFFFF),bg(lighten(base),base,11,0xffC0F5FA),null));
   t.setOnTouchListener((v,event)->{if(event.getAction()==android.view.MotionEvent.ACTION_DOWN){v.animate().scaleX(0.93f).scaleY(0.93f).setDuration(65).start();}else if(event.getAction()==android.view.MotionEvent.ACTION_UP||event.getAction()==android.view.MotionEvent.ACTION_CANCEL){v.animate().scaleX(1f).scaleY(1f).setDuration(95).start();}return false;});
   LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,height,weight);p.setMargins(dp(2),dp(2),dp(2),dp(3));row.addView(t,p);t.setOnClickListener(v->press(value));
   String variants=variantsFor(value);
