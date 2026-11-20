@@ -27,7 +27,7 @@ public class BechirIme extends InputMethodService {
   LinearLayout heading=new LinearLayout(this);heading.setOrientation(LinearLayout.VERTICAL);heading.setGravity(Gravity.CENTER_VERTICAL);TextView name=new TextView(this);name.setText("⌨  كيبورد بشير");name.setTextColor(Color.WHITE);name.setTextSize(22);name.setTypeface(Typeface.DEFAULT,Typeface.BOLD);heading.addView(name);TextView sub=new TextView(this);sub.setText("Bechir Keyboard");sub.setTextSize(10);sub.setTextColor(0xffA6EBF2);heading.addView(sub);bar.addView(heading,new LinearLayout.LayoutParams(0,dp(48),1));
   TextView lang=new TextView(this);lang.setText(arabic?"AR":"FR");lang.setTextColor(0xffB9FAFF);lang.setTextSize(16);lang.setGravity(Gravity.CENTER);bar.addView(lang,new LinearLayout.LayoutParams(dp(40),dp(39)));root.addView(bar);
   if(symbols){addRow(new String[]{"1","2","3","4","5","6","7","8","9","0"},dp(64));addRow(new String[]{"@","#","$","%","&","-","+","(",")","/"});addRow(new String[]{"*","\"",":",";","!","؟","?","،",".","⌫"});}
-  else if(arabic){addRow(new String[]{"ض","ص","ث","ق","ف","غ","ع","ه","خ","ح","ج"});addRow(new String[]{"ش","س","ي","ب","ل","ا","ت","ن","م","ك","ط"});addRow(new String[]{"ذ","ء","ؤ","ر","ى","ة","و","ز","ظ","د","⌫"});addRow(new String[]{"أ","إ","آ","ئ","لا","،"});}
+  else if(arabic){addRow(new String[]{"ض","ص","ث","ق","ف","غ","ع","ه","خ","ح","ج"});addRow(new String[]{"ش","س","ي","ب","ل","ا","ت","ن","م","ك","ط"});addRow(new String[]{"ذ","ء","ر","ى","ئ","ة","و","ز","ظ","د","⌫"});LinearLayout shortcutRow=new LinearLayout(this);shortcutRow.setGravity(Gravity.CENTER);shortcutRow.addView(new View(this),new LinearLayout.LayoutParams(0,dp(49),2));addKey(shortcutRow,"لا",1f,0xff57B86E);shortcutRow.addView(new View(this),new LinearLayout.LayoutParams(0,dp(49),2));root.addView(shortcutRow);}
   else{addRow(new String[]{"a","z","e","r","t","y","u","i","o","p"});addRow(new String[]{"q","s","d","f","g","h","j","k","l","m"});addRow(new String[]{"⇧","w","x","c","v","b","n","é","è","⌫"});addRow(new String[]{"à","ù","ê","ç","â","î","ô","û","!"});}
   LinearLayout bottom=new LinearLayout(this);bottom.setGravity(Gravity.CENTER);
   addKey(bottom,symbols?(arabic?"أبج":"ABC"):"123",1.8f,0xff0A6D80);addKey(bottom,"🌐",.9f,0xff0A6D80);addKey(bottom,".",.65f,0xff116C7A);addKey(bottom,arabic?"العربية":"espace",3.9f,0xff168A9C);addKey(bottom,arabic?"؟":"?",.7f,0xff116C7A);addKey(bottom,"↵",1.1f,0xff17B1C5);root.addView(bottom);
@@ -56,6 +56,8 @@ public class BechirIme extends InputMethodService {
   switch(value){
    case "ا":return "أ,إ,آ,ٱ";
    case "ي":return "ى,ئ";
+   case "ى":return "ئ,ي";
+   case "ئ":return "ى,ي";
    case "و":return "ؤ";
    case "ه":return "ة";
    case "ء":return "أ,إ,ؤ,ئ";
