@@ -30,13 +30,13 @@ public class BechirIme extends InputMethodService {
   if(true){
    LinearLayout options=new LinearLayout(this);options.setGravity(Gravity.CENTER);
    for(String option:(activeVariants==null?"":activeVariants).split(",")){
-    TextView key=new TextView(this);key.setText(option);key.setTextColor(Color.WHITE);key.setTextSize(20);key.setGravity(Gravity.CENTER);key.setIncludeFontPadding(true);key.setPadding(0,dp(5),0,dp(3));
+    TextView key=new TextView(this);key.setText(option);key.setTextColor(Color.WHITE);key.setTextSize(20);key.setGravity(Gravity.CENTER);key.setIncludeFontPadding(true);key.setPadding(0,dp(2),0,dp(2));
     key.setBackground(bg(0xff319BB3,0xff127083,12,0xffD0F8FF));
-    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(0,dp(49),1);lp.setMargins(dp(3),0,dp(3),dp(3));options.addView(key,lp);
+    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(0,dp(38),1);lp.setMargins(dp(3),0,dp(3),dp(3));options.addView(key,lp);
     key.setOnClickListener(v->{InputConnection ic=getCurrentInputConnection();if(ic!=null)ic.commitText(option,1);activeVariants=null;refreshKeys();});
    }
    TextView close=new TextView(this);close.setText("×");close.setTextColor(Color.WHITE);close.setTextSize(24);close.setGravity(Gravity.CENTER);
-   options.addView(close,new LinearLayout.LayoutParams(dp(36),dp(49)));close.setOnClickListener(v->{activeVariants=null;refreshKeys();});
+   options.addView(close,new LinearLayout.LayoutParams(dp(36),dp(38)));close.setOnClickListener(v->{activeVariants=null;refreshKeys();});
    options.setVisibility(activeVariants==null?View.INVISIBLE:View.VISIBLE);
    root.addView(options);
   }
