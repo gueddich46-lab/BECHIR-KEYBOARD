@@ -27,8 +27,8 @@ public class BechirIme extends InputMethodService {
   LinearLayout heading=new LinearLayout(this);heading.setOrientation(LinearLayout.VERTICAL);heading.setGravity(Gravity.CENTER_VERTICAL);TextView name=new TextView(this);name.setText("⌨  كيبورد بشير");name.setTextColor(Color.WHITE);name.setTextSize(22);name.setTypeface(Typeface.DEFAULT,Typeface.BOLD);heading.addView(name);TextView sub=new TextView(this);sub.setText("Bechir Keyboard");sub.setTextSize(10);sub.setTextColor(0xffA6EBF2);heading.addView(sub);bar.addView(heading,new LinearLayout.LayoutParams(0,dp(48),1));
   TextView lang=new TextView(this);lang.setText(arabic?"AR":"FR");lang.setTextColor(0xffB9FAFF);lang.setTextSize(16);lang.setGravity(Gravity.CENTER);bar.addView(lang,new LinearLayout.LayoutParams(dp(40),dp(39)));root.addView(bar);
   if(symbols){addRow(new String[]{"1","2","3","4","5","6","7","8","9","0"},dp(64));addRow(new String[]{"@","#","$","%","&","-","+","(",")","/"});addRow(new String[]{"*","\"",":",";","!","؟","?","،",".","⌫"});}
-  else if(arabic){addRow(new String[]{"ض","ص","ث","ق","ف","غ","ع","ه","خ","ح","ج"});addRow(new String[]{"ش","س","ي","ب","ل","ا","ت","ن","م","ك","ط"});addRow(new String[]{"ذ","ء","ر","و","ز","ظ","د","⌫"});addRow(new String[]{"لا","،"});}
-  else{addRow(new String[]{"a","z","e","r","t","y","u","i","o","p"});addRow(new String[]{"q","s","d","f","g","h","j","k","l","m"});addRow(new String[]{"⇧","w","x","c","v","b","n","⌫"});}
+  else if(arabic){addRow(new String[]{"ض","ص","ث","ق","ف","غ","ع","ه","خ","ح","ج"});addRow(new String[]{"ش","س","ي","ب","ل","ا","ت","ن","م","ك","ط"});addRow(new String[]{"ذ","ء","ؤ","ر","ى","ة","و","ز","ظ","د","⌫"});addRow(new String[]{"أ","إ","آ","ئ","لا","،"});}
+  else{addRow(new String[]{"a","z","e","r","t","y","u","i","o","p"});addRow(new String[]{"q","s","d","f","g","h","j","k","l","m"});addRow(new String[]{"⇧","w","x","c","v","b","n","é","è","⌫"});addRow(new String[]{"à","ù","ê","ç","â","î","ô","û","!"});}
   LinearLayout bottom=new LinearLayout(this);bottom.setGravity(Gravity.CENTER);
   addKey(bottom,symbols?(arabic?"أبج":"ABC"):"123",1.8f,0xff0A6D80);addKey(bottom,"🌐",.9f,0xff0A6D80);addKey(bottom,".",.65f,0xff116C7A);addKey(bottom,arabic?"العربية":"espace",3.9f,0xff168A9C);addKey(bottom,arabic?"؟":"?",.7f,0xff116C7A);addKey(bottom,"↵",1.1f,0xff17B1C5);root.addView(bottom);
  }
@@ -39,9 +39,9 @@ public class BechirIme extends InputMethodService {
  private void addKey(LinearLayout row,String value,float weight,int base,int height,boolean letterRow){
   TextView t=new TextView(this);t.setText(shifted&&!arabic&&!symbols&&value.length()==1&&Character.isLetter(value.charAt(0))?value.toUpperCase(Locale.FRENCH):value);t.setTextColor(Color.WHITE);t.setTextSize(value.length()>4?13:value.length()>2?17:21);t.setTypeface(Typeface.DEFAULT,Typeface.BOLD);t.setGravity(Gravity.CENTER);
   if(value.equals("⇧")&&shifted)t.setTextColor(0xffFFEEA5);
-  t.setBackground(new RippleDrawable(ColorStateList.valueOf(0xAA9BFFFF),bg(lighten(base),base,letterRow?80:11,0xffC0F5FA),null));
+  t.setBackground(new RippleDrawable(ColorStateList.valueOf(0xAA9BFFFF),bg(lighten(base),base,13,0xffC0F5FA),null));
   t.setOnTouchListener((v,event)->{if(event.getAction()==android.view.MotionEvent.ACTION_DOWN){v.animate().scaleX(0.93f).scaleY(0.93f).setDuration(65).start();}else if(event.getAction()==android.view.MotionEvent.ACTION_UP||event.getAction()==android.view.MotionEvent.ACTION_CANCEL){v.animate().scaleX(1f).scaleY(1f).setDuration(95).start();}return false;});
-  LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,height,weight);p.setMargins(dp(2),dp(2),dp(2),dp(3));row.addView(t,p);if(letterRow){row.post(()->{int cell=t.getWidth();int d=Math.min(cell-dp(4),height-dp(5));if(d>0){android.widget.LinearLayout.LayoutParams lp=(android.widget.LinearLayout.LayoutParams)t.getLayoutParams();lp.height=d;lp.topMargin=(height-d)/2;lp.bottomMargin=(height-d)/2;t.setLayoutParams(lp);}});}t.setOnClickListener(v->press(value));
+  LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,height,weight);p.setMargins(dp(2),dp(2),dp(2),dp(3));row.addView(t,p);t.setOnClickListener(v->press(value));
   String variants=variantsFor(value);
   if(variants!=null)t.setOnLongClickListener(v->{showVariants(t,variants);return true;});
   if(value.equals("⌫"))t.setOnLongClickListener(v->{InputConnection ic=getCurrentInputConnection();if(ic!=null)ic.deleteSurroundingText(12,0);return true;});
