@@ -28,11 +28,11 @@ public class BechirIme extends InputMethodService {
   LinearLayout heading=new LinearLayout(this);heading.setOrientation(LinearLayout.VERTICAL);heading.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);TextView name=new TextView(this);name.setText("⌨  كيبورد بشير");name.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);name.setTextColor(Color.WHITE);name.setTextSize(22);name.setTypeface(Typeface.DEFAULT,Typeface.BOLD);heading.addView(name);TextView sub=new TextView(this);sub.setText("Bechir Keyboard");sub.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);sub.setTextSize(10);sub.setTextColor(0xffA6EBF2);heading.addView(sub);bar.addView(heading,new LinearLayout.LayoutParams(0,dp(48),1));
   TextView lang=new TextView(this);lang.setText(arabic?"AR":"FR");lang.setTextColor(0xffB9FAFF);lang.setTextSize(16);lang.setGravity(Gravity.CENTER);bar.addView(lang,new LinearLayout.LayoutParams(dp(40),dp(39)));root.addView(bar);
   if(true){
-   LinearLayout options=new LinearLayout(this);options.setGravity(Gravity.CENTER);
+   LinearLayout options=new LinearLayout(this);options.setGravity(Gravity.CENTER);options.setPadding(dp(6),dp(2),dp(6),dp(2));
    for(String option:(activeVariants==null?"":activeVariants).split(",")){
-    TextView key=new TextView(this);key.setText(option);key.setTextColor(Color.WHITE);key.setTextSize(20);key.setGravity(Gravity.CENTER);key.setIncludeFontPadding(true);key.setPadding(0,dp(2),0,dp(2));
+    TextView key=new TextView(this);key.setText(option);key.setTextColor(Color.WHITE);key.setTextSize(19);key.setGravity(Gravity.CENTER);key.setIncludeFontPadding(true);key.setPadding(0,dp(2),0,dp(2));
     key.setBackground(bg(0xff319BB3,0xff127083,12,0xffD0F8FF));
-    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(0,dp(38),1);lp.setMargins(dp(3),0,dp(3),dp(3));options.addView(key,lp);
+    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(dp(58),dp(38));lp.setMargins(dp(3),0,dp(3),dp(3));options.addView(key,lp);
     key.setOnClickListener(v->{InputConnection ic=getCurrentInputConnection();if(ic!=null)ic.commitText(option,1);activeVariants=null;refreshKeys();});
    }
    TextView close=new TextView(this);close.setText("×");close.setTextColor(Color.WHITE);close.setTextSize(24);close.setGravity(Gravity.CENTER);
