@@ -21,7 +21,7 @@ public class BechirIme extends InputMethodService {
  private static final int[] RAINBOW={0xffD65B91,0xffAF67D9,0xff7478E9,0xff438CE7,0xff26A8D2,0xff20B7A9,0xff57B86E,0xffB7BB4C,0xffE6A34B,0xffE37C5C};
  private int dp(float x){return (int)(getResources().getDisplayMetrics().density*x+.5f);}
  private GradientDrawable bg(int top,int bottom,int radius,int border){GradientDrawable d=new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{top,bottom});d.setCornerRadius(dp(radius));d.setStroke(dp(1.4f),border);return d;}
- @Override public View onCreateInputView(){root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setPadding(dp(4),dp(5),dp(4),dp(9));root.setBackground(bg(0xff064452,0xff052D3D,17,0xff24899A));draw();return root;}
+ @Override public View onCreateInputView(){root=new LinearLayout(this);root.setOrientation(LinearLayout.VERTICAL);root.setPadding(dp(4),dp(5),dp(4),dp(18));root.setBackground(bg(0xff064452,0xff052D3D,17,0xff24899A));draw();return root;}
  private void draw(){
   root.removeAllViews();
   LinearLayout bar=new LinearLayout(this);bar.setGravity(Gravity.CENTER_VERTICAL);bar.setPadding(dp(8),dp(1),dp(8),dp(3));
@@ -30,20 +30,20 @@ public class BechirIme extends InputMethodService {
   if(true){
    LinearLayout options=new LinearLayout(this);options.setGravity(Gravity.CENTER);
    for(String option:(activeVariants==null?"":activeVariants).split(",")){
-    TextView key=new TextView(this);key.setText(option);key.setTextColor(Color.WHITE);key.setTextSize(20);key.setGravity(Gravity.CENTER);
+    TextView key=new TextView(this);key.setText(option);key.setTextColor(Color.WHITE);key.setTextSize(20);key.setGravity(Gravity.CENTER);key.setIncludeFontPadding(true);key.setPadding(0,dp(5),0,dp(3));
     key.setBackground(bg(0xff319BB3,0xff127083,12,0xffD0F8FF));
-    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(0,dp(42),1);lp.setMargins(dp(3),0,dp(3),dp(3));options.addView(key,lp);
+    LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(0,dp(49),1);lp.setMargins(dp(3),0,dp(3),dp(3));options.addView(key,lp);
     key.setOnClickListener(v->{InputConnection ic=getCurrentInputConnection();if(ic!=null)ic.commitText(option,1);activeVariants=null;refreshKeys();});
    }
    TextView close=new TextView(this);close.setText("×");close.setTextColor(Color.WHITE);close.setTextSize(24);close.setGravity(Gravity.CENTER);
-   options.addView(close,new LinearLayout.LayoutParams(dp(36),dp(42)));close.setOnClickListener(v->{activeVariants=null;refreshKeys();});
+   options.addView(close,new LinearLayout.LayoutParams(dp(36),dp(49)));close.setOnClickListener(v->{activeVariants=null;refreshKeys();});
    options.setVisibility(activeVariants==null?View.INVISIBLE:View.VISIBLE);
    root.addView(options);
   }
   if(symbols){addRow(new String[]{"1","2","3","4","5","6","7","8","9","0"},dp(64));addRow(new String[]{"@","#","$","%","&","-","+","(",")","/"});addRow(new String[]{"*","\"",":",";","!","؟","?","،",".","⌫"});}
-  else if(arabic){addRow(new String[]{"ض","ص","ث","ق","ف","غ","ع","ه","خ","ح","ج"});addRow(new String[]{"ش","س","ي","ب","ل","ا","ت","ن","م","ك","ط"});addRow(new String[]{"ذ","ء","ر","ى","ئ","و","ز","ظ","د","⌫"});LinearLayout shortcutRow=new LinearLayout(this);shortcutRow.setGravity(Gravity.CENTER);shortcutRow.addView(new View(this),new LinearLayout.LayoutParams(0,dp(49),2));addKey(shortcutRow,"لا",1f,0xff57B86E);shortcutRow.addView(new View(this),new LinearLayout.LayoutParams(0,dp(49),2));root.addView(shortcutRow);}
+  else if(arabic){addRow(new String[]{"ض","ص","ث","ق","ف","غ","ع","ه","خ","ح","ج"});addRow(new String[]{"ش","س","ي","ب","ل","ا","ت","ن","م","ك","ط"});addRow(new String[]{"ذ","ء","ر","ى","لا","و","ز","ظ","د","⌫"});}
   else{addRow(new String[]{"a","z","e","r","t","y","u","i","o","p"});addRow(new String[]{"q","s","d","f","g","h","j","k","l","m"});addRow(new String[]{"⇧","w","x","c","v","b","n","⌫"});}
-  LinearLayout bottom=new LinearLayout(this);bottom.setGravity(Gravity.CENTER);
+  LinearLayout bottom=new LinearLayout(this);bottom.setGravity(Gravity.CENTER);bottom.setPadding(0,dp(4),0,dp(7));
   addKey(bottom,symbols?(arabic?"أبج":"ABC"):"123",1.8f,0xff0A6D80);addKey(bottom,"🌐",.9f,0xff0A6D80);addKey(bottom,".",.65f,0xff116C7A);addKey(bottom,arabic?"العربية":"espace",3.9f,0xff168A9C);addKey(bottom,arabic?"؟":"?",.7f,0xff116C7A);addKey(bottom,"↵",1.1f,0xff17B1C5);root.addView(bottom);
  }
  private void addRow(String[] keys){addRow(keys,dp(49));}
